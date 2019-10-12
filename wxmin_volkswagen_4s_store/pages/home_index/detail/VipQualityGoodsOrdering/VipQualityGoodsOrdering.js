@@ -83,7 +83,6 @@ Page({
           discountList: list
         });
       }
-     
     })
   },
   chooseAddress() {
@@ -121,12 +120,30 @@ Page({
       package: param.package,
       signType: param.signType,
       paySign: param.paySign,
-      success(res) {
+      success: res => {
         console.log('pay success res=', res)
+        this.showModal('支付成功')
        },
-      fail(res) {
+      fail: res => {
         console.log('pay fail res=', res)
+        this.showModal('支付失败')
        }
+    })
+    
+  },
+
+  showModal(msg) {
+    wx.showModal({
+      title: '提示',
+      content: msg,
+      showCancel: false,
+      success: res => {
+        if (res.confirm && msg == '支付成功') {
+          wx.navigateBack();
+        } else if (res.cancel) {
+          // console.log('用户点击取消')
+        }
+      }
     })
   },
 
